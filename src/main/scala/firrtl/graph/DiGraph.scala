@@ -31,6 +31,16 @@ object DiGraph {
     }
     new DiGraph(edgeDataCopy)
   }
+
+  /** Create a DiGraph from edges */
+  def apply[T](edges: (T, T)*): DiGraph[T] = {
+    val edgeMap = new LinkedHashMap[T, LinkedHashSet[T]]
+    for ((from, to) <- edges) {
+      val set = edgeMap.getOrElseUpdate(from, new LinkedHashSet[T])
+      set += to
+    }
+    new DiGraph(edgeMap)
+  }
 }
 
 /** Represents common behavior of all directed graphs */
